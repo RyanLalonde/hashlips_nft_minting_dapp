@@ -100,7 +100,7 @@ function App() {
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
-  const [mintAmount, setMintAmount] = useState(1);
+  const [_mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -123,14 +123,14 @@ function App() {
   const claimNFTs = () => {
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
-    let totalCostWei = String(cost * mintAmount);
-    let totalGasLimit = String(gasLimit * mintAmount);
+    let totalCostWei = String(cost * _mintAmount);
+    let totalGasLimit = String(gasLimit * _mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      .mint(_mintAmount)
       .send({
         gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
@@ -153,7 +153,7 @@ function App() {
   };
 
   const decrementMintAmount = () => {
-    let newMintAmount = mintAmount - 1;
+    let newMintAmount = _mintAmount - 1;
     if (newMintAmount < 1) {
       newMintAmount = 1;
     }
@@ -161,7 +161,7 @@ function App() {
   };
 
   const incrementMintAmount = () => {
-    let newMintAmount = mintAmount + 1;
+    let newMintAmount = _mintAmount + 1;
     if (newMintAmount > 10) {
       newMintAmount = 10;
     }
@@ -337,7 +337,7 @@ function App() {
                           color: "var(--accent-text)",
                         }}
                       >
-                        {mintAmount}
+                        {_mintAmount}
                       </s.TextDescription>
                       <s.SpacerMedium />
                       <StyledRoundButton
